@@ -8,8 +8,7 @@ class Post:
         self.text = 'I love everything about your store.'
 
 
-
 # Create your views here.
 def post_list(request):
     posts = [Post('Street Style', 'August 29', 30), Post('Road Style', 'Sept', 1)]
-    return render(request, 'api/main.html', {'posts': posts})
+    return render(request, 'api/post_list.html', {'posts': posts})
