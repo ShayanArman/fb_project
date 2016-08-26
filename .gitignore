@@ -1,3 +1,5 @@
 .env
+env
+manage.py
 *.py[co]
 *.DS_Store
