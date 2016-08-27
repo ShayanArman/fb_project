@@ -1,12 +1,12 @@
 {% extends 'api/main.html' %}
 
 {% block header_message %}
-	<h1><a href="/">Communication Manager - Page List</a></h1>
+	<h1><a>Communication Manager - Page List</a></h1>
 {% endblock %}
 
 {% block content %}
 	<div>
-	List of Pages!
+	   <h2>Managed Pages:</h2>
 	</div>
 {% endblock %}
 
@@ -14,12 +14,40 @@
 	<script>
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
-    console.log('statusChangeCallback');
-    console.log(response);
     if (response.status !== 'connected') {
       // Logged into your app and Facebook.
       window.location.replace("/login");
     }
+
+    userId = response.authResponse.userID;
+    getManagedPages(userId);
+  }
+
+  function showManagedPages(pagesResponse) {
+    pages = pagesResponse.data;
+    if (pages.length > 0) {
+      // TODO: Add the pages to the main view
+      pages.forEach(function(page) {
+        console.log(page.access_token);
+        console.log(page.category);
+        console.log(page.name);
+        console.log(page.id);
+      });
+    } else {
+      // TODO: Write a message, no pages under management by user.
+      console.log("No pages under management by this user.");
+    }
+  }
+
+  function getManagedPages(userId) {
+    // TODO: String formatting in Javascript
+    apiEndpoint = userId.toString() + '/accounts';
+
+    FB.api(apiEndpoint, function(response) {
+      // TODO: Check edge cases, does response have data field?
+      // handle 500 errors.
+      showManagedPages(response);
+    });
   }
 
   // This function is called when someone finishes with the Login
