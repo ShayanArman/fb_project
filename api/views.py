@@ -7,8 +7,14 @@ class Post:
         self.num_likes = num_likes
         self.text = 'I love everything about your store.'
 
+def login(request):
+    return render(request, 'api/login.html', {})
 
-# Create your views here.
+
+def page_list(request):
+    return render(request, 'api/page_list.html', {})
+
+
 def post_list(request):
     posts = [Post('Street Style', 'August 29', 30), Post('Road Style', 'Sept', 1)]
     return render(request, 'api/post_list.html', {'posts': posts})

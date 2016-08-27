@@ -1,19 +1,13 @@
 {% extends 'api/main.html' %}
 
 {% block header_message %}
-	<h1><a href="/">Communication Manager - Posts List</a></h1>
+	<h1><a href="/">Communication Manager - Page List</a></h1>
 {% endblock %}
 
 {% block content %}
-	{% for post in posts %}
-	    <div class="post">
-	        <h1><a href="">{{ post.title }}</a></h1>
-	        <p>{{ post.text|linebreaksbr }}</p>
-	        <div class="date">
-	            <p>published: {{ post.published_date }}</p>
-	        </div>
-	    </div>
-	{% endfor %}
+	<div>
+	List of Pages!
+	</div>
 {% endblock %}
 
 {% block scripts %}
@@ -22,9 +16,13 @@
   function statusChangeCallback(response) {
     console.log('statusChangeCallback');
     console.log(response);
+    // The response object is returned with a status field that lets the
+    // app know the current login status of the person.
+    // Full docs on the response object can be found in the documentation
+    // for FB.getLoginStatus().
     if (response.status !== 'connected') {
       // Logged into your app and Facebook.
-	  window.location.replace('/login');
+      window.location.replace("/login");
     }
   }
 

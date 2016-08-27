@@ -8,16 +8,42 @@
         <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
     </head>
     <body>
+		<script>
+		  var isLoaded = false;
+		  window.fbAsyncInit = function() {
+		    FB.init({
+		      appId      : '1749293892004937',
+		      xfbml      : true,
+		      cookie	 : true,
+		      version    : 'v2.7'
+		    });
+		    checkLoginState();
+		  };
+
+		  (function(d, s, id){
+		     var js, fjs = d.getElementsByTagName(s)[0];
+		     if (d.getElementById(id)) {return;}
+		     js = d.createElement(s); js.id = id;
+		     js.src = "//connect.facebook.net/en_US/sdk.js";
+		     fjs.parentNode.insertBefore(js, fjs);
+		   }(document, 'script', 'facebook-jssdk'));
+		</script>
+
+		{% block scripts %}
+		{% endblock %}
+
         <div class="page-header">
-		    <h1><a href="/">Facebook Page</a></h1>
+        	{% block header_message %}
+        	{% endblock %}
 		</div>
+
 		<div class="content container">
-	    <div class="row">
-	        <div class="col-md-8">
-	        	{% block content %}
-	        	{% endblock %}
-	        </div>
-	    </div>
+		    <div class="row">
+		        <div class="col-md-8">
+		        	{% block content %}
+		        	{% endblock %}
+		        </div>
+		    </div>
 		</div>
     </body>
 </html>

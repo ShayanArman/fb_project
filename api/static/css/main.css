@@ -37,6 +37,30 @@ h1, h2, h3, h4 {
     margin-right: 20px;
 }
 
+.w-inline-block {
+	max-width: 100%;
+}
+
+.registration_fb {
+    display: block;
+    width: 462px;
+  	border-radius: 20px;
+    height: 43px;
+    margin-top: 40px;
+    margin-left: inherit;
+    text-align: center;
+    color: white;
+    line-height: 41px;
+    background-color: #3B5999;
+    background-position: 0 0;
+    background-size: cover;
+}
+
+.registration_fb:hover {
+	color: white;
+	text-decoration: none;
+}
+
 .post {
     margin-bottom: 70px;
 }
