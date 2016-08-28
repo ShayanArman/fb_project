@@ -12,6 +12,7 @@
 
 {% block scripts %}
 	<script>
+  // TODO: On click -> window.location.replace('/post_list/<page-id>')
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
     if (response.status !== 'connected') {
@@ -20,11 +21,9 @@
     }
 
     userId = response.authResponse.userID;
-    getManagedPages(userId);
   }
 
-  function showManagedPages(pagesResponse) {
-    pages = pagesResponse.data;
+  function showManagedPages(pages) {
     if (pages.length > 0) {
       // TODO: Add the pages to the main view
       pages.forEach(function(page) {
@@ -46,7 +45,7 @@
     FB.api(apiEndpoint, function(response) {
       // TODO: Check edge cases, does response have data field?
       // handle 500 errors.
-      showManagedPages(response);
+      showManagedPages(response.data);
     });
   }
 

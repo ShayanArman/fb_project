@@ -5,6 +5,8 @@
 {% endblock %}
 
 {% block content %}
+  <div id='sampleArea'>
+  </div>
 	{% for post in posts %}
 	    <div class="post">
 	        <h1><a href="">{{ post.title }}</a></h1>
@@ -17,17 +19,55 @@
 {% endblock %}
 
 {% block scripts %}
-	<script>
+  <script id="personTpl" type="text/template">
+    <h1>
+      {% templatetag openvariable %} firstName {% templatetag closevariable %}
+      {% templatetag openvariable %} lastName {% templatetag closevariable %}
+    </h1>
+  </script>
+  <script>
+    var data = {firstName: 'Shayan', lastName: 'Arman'};
+    var template = $('#personTpl').html();
+    var html = Mustache.to_html(template, data);
+    $('#sampleArea').html(html);
+  </script>
+
+  <script>
+  page_id = {{page_id}};
+
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
-    console.log('statusChangeCallback');
-    console.log(response);
     if (response.status !== 'connected') {
       // Logged into your app and Facebook.
 	  window.location.replace('/login');
     }
+
+    getPagePosts();
   }
 
+  function showPagePosts(pagePosts) {
+    if (pagePosts.length > 0) {
+      // TODO: Add the posts to the main view
+      pagePosts.forEach(function(post) {
+        console.log(post);
+        // console.log(post.id);
+        // console.log(post.likes);
+        // console.log(post.link);
+      });
+    } else {
+      // TODO: Have a placeholder, with a message, no posts in page.
+      console.log("No posts in this Page.");
+    }
+  }
+
+  function getPagePosts() {
+    // TODO: do a check for the integrity of page_id
+    endpoint = page_id.toString() + '/feed';
+    FB.api(endpoint, {fields: 'message,id,likes,link'}, function(response) {
+      // TODO: check response object has data field
+      showPagePosts(response.data);
+    })
+  }
   // This function is called when someone finishes with the Login
   // Button.  See the onlogin handler attached to it in the sample
   // code below.

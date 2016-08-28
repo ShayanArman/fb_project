@@ -15,6 +15,6 @@ def page_list(request):
     return render(request, 'api/page_list.html', {})
 
 
-def post_list(request):
+def post_list(request, page_id):
     posts = [Post('Street Style', 'August 29', 30), Post('Road Style', 'Sept', 1)]
-    return render(request, 'api/post_list.html', {'posts': posts})
+    return render(request, 'api/post_list.html', {'posts': posts, 'page_id': page_id})
