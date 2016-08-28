@@ -14,17 +14,9 @@
 
 <div class='content'>
   <div class='h'>
-    <div class="post_composer">
-      <div class="post_body">
-        <div class="post_author">
-          <div id="admin_picture"></div>
-        </div>
-        <div class="post_compose">
-          <textarea type="text" placeholder="Compose a post..."></textarea>
-        </div>
-      </div>
-      <div class="post_buttons">
-        <div class="button">Post</div>
+    <div id="no_pages" class="post_composer page" style="display:none">
+      <div class="post_body page">
+        No pages to show
       </div>
     </div>
     <div id="feedColumn" class="feed">
@@ -99,8 +91,7 @@
         goToView(url);
       });
     } else {
-      // TODO: Have a placeholder, with a message, no posts in page.
-      console.log("No posts in this Page.");
+      $("#no_pages").show();
     }
   }
 
