@@ -20,13 +20,12 @@
 
 {% block scripts %}
   <script id="personTpl" type="text/template">
-    <h1>
-      {% templatetag openvariable %} firstName {% templatetag closevariable %}
-      {% templatetag openvariable %} lastName {% templatetag closevariable %}
-    </h1>
+    {% templatetag openvariable %} #names {% templatetag closevariable %}
+      <b>{% templatetag openvariable %} name {% templatetag closevariable %}</b>
+    {% templatetag openvariable %} /names {% templatetag closevariable %}
   </script>
   <script>
-    var data = {firstName: 'Shayan', lastName: 'Arman'};
+    var data = {names: [{name: 'Shayan'}, {name: 'Awesome'}, {name: 'Captain'}]}
     var template = $('#personTpl').html();
     var html = Mustache.to_html(template, data);
     $('#sampleArea').html(html);
