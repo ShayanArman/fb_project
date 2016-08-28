@@ -35,17 +35,23 @@
   page_id = {{page_id}};
 
   // This is called with the results from from FB.getLoginStatus().
-  function statusChangeCallback(response) {
-    if (response.status !== 'connected') {
+  function statusChangeCallback(login_response, user_response) {
+    if (login_response.status !== 'connected') {
       // Logged into your app and Facebook.
-	  window.location.replace('/login');
+	    window.location.replace('/login');
     }
-
-    getPagePosts();
+    if (!user_response.error) {
+      console.log(user_response);
+      console.log(user_response.first_name);
+      console.log(user_response.last_name);
+      console.log(user_response.picture.data.url);
+      // getPagePosts();
+    }
+    // TODO: Handle case where the user_response is not available.
   }
 
   function showPagePosts(pagePosts) {
-    if (pagePosts.length > 0) {
+    if (pagePosts && pagePosts.length > 0) {
       // TODO: Add the posts to the main view
       pagePosts.forEach(function(post) {
         console.log(post);
@@ -67,13 +73,15 @@
       showPagePosts(response.data);
     })
   }
+
   // This function is called when someone finishes with the Login
   // Button.  See the onlogin handler attached to it in the sample
   // code below.
   function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-      console.log(response.status);
-      statusChangeCallback(response);
+    FB.getLoginStatus(function(login_response) {
+      FB.api('/me', {fields: 'picture,first_name,last_name'}, function(user_response) {
+        statusChangeCallback(login_response, user_response);
+      });
     });
   }
 </script>
