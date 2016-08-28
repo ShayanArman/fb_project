@@ -184,7 +184,7 @@ a {
 
 .post_composer .post_compose textarea {
     border: 1px solid #e4e4e4;
-    font-size: 0.75em;
+    font-size: 1.2em;
     height: 100%;
     outline: none;
     padding: 15px;
@@ -204,6 +204,7 @@ a {
 
 .post_buttons .button {
     position: absolute;
+    text-decoration: none;
     top: 40px;
     right: 0;
     bottom: 12px;
@@ -226,6 +227,9 @@ a {
     width: 100px;
 }
 
+.button:hover {
+    color: black;
+}
 .page_link {
     cursor: pointer;
     color: #555;

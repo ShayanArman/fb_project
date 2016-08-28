@@ -24,11 +24,11 @@
             <div></div>
             <div></div>
           </div>
-          <textarea type="text" placeholder="Compose a post..."></textarea>
+          <textarea id="post_message_area" type="text" placeholder="Compose a post..."></textarea>
         </div>
       </div>
       <div class="post_buttons">
-        <div class="button">Post</div>
+        <a id="post_button" class="button" onclick="postInformation()">Post</a>
       </div>
     </div>
     <div id="feedColumn" class="feed">
@@ -65,6 +65,26 @@
 
   <script>
   page_id = {{page_id}};
+  page_access_token = null;
+
+  function postInformation() {
+    message = $("#post_message_area").val();
+    if (!message) {
+      $("#post_message_area").val('Must have a message.');
+    } else {
+      FB.api(page_id.toString() + '/feed', 'POST', {'message': message}, function(response) {
+          if (response.error) {
+            $("#post_message_area").val(re.error.message);
+          } else {
+            // TODO: Clean this code, abstract away methods.
+            FB.api(response.id, {fields: 'message,id,link,insights.metric(post_impressions)'}, function(post) {
+              if (!post.error) {
+                showPagePosts([post]);
+              }
+            });
+          }
+      });
+    }}
 
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(login_response, user_response) {
@@ -100,7 +120,7 @@
       console.log(data);
       var template = $('#postsScript').html();
       var postHtml = Mustache.to_html(template, data);
-      $('#feedColumn').html(postHtml);
+      $('#feedColumn').prepend(postHtml);
     } else {
       // TODO: Have a placeholder, with a message, no posts in page.
       console.log("No posts in this Page.");
