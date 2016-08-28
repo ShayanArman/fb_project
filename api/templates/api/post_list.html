@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class='nav'>
-  <a class='home' onclick="goHome();">
+  <a class='home' onclick="goToView('/');">
   </a>
   <a class='posts selected'>
   </a>
@@ -56,7 +56,7 @@
         </div>
         <div class="post_commentary">
           {% templatetag openvariable %} #views {% templatetag closevariable %}
-              {% templatetag openvariable %} views {% templatetag closevariable %} Views
+              <b>{% templatetag openvariable %} views {% templatetag closevariable %} Views</b>
           {% templatetag openvariable %} /views {% templatetag closevariable %}
         </div>
       </div>
@@ -70,16 +70,11 @@
   function statusChangeCallback(login_response, user_response) {
     if (login_response.status !== 'connected') {
       // Logged into your app and Facebook.
-	    window.location.replace('/login');
+	    goToView('/login');
     }
     if (!user_response.error) {
 
-      $('#admin_picture').prepend('<img class="person_picture user_picture" src=' + user_response.picture.data.url + ' />')
-      // $("#admin_picture").css("background-image", "url(" + user_response.picture.data.url + ")");
-      // console.log(user_response);
-      // console.log(user_response.first_name);
-      // console.log(user_response.last_name);
-      // console.log(user_response.picture.data.url);
+      $('#admin_picture').prepend('<img class="person_picture user_picture" src=' + user_response.picture.data.url + ' />');
       getPagePosts();
     }
     // TODO: Handle case where the user_response is not available.

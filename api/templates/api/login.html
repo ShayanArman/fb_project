@@ -9,7 +9,7 @@
   function fbLogin() {
   	FB.login(function(response) {
   	  if (response.status === 'connected') {
-  	  	window.location.replace('/');
+  	  	goToView('/');
   	  }
   	}, {scope: 'manage_pages, pages_show_list, read_insights, read_audience_network_insights'});
   }
@@ -17,7 +17,7 @@
   function statusChangeCallback(response) {
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
-      window.location.replace('/');
+      goToView('/');
     } else {
     	console.log('not connected.');
     }

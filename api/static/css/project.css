@@ -226,8 +226,14 @@ a {
     width: 100px;
 }
 
+.page_link {
+    cursor: pointer;
+    color: #555;
+}
+
 .post {
-    border: 1px solid rgba(0, 0, 0, 0.07);
+    border: 1px solid rgba(0, 0, 0, 0.09);
+    border-radius: 3px;
     display: block;
     min-height: 100px;
     background-color: #fff;
@@ -235,6 +241,10 @@ a {
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
     font-size: 0.9em;
+}
+
+.post .page {
+    font-size: 1.2em;
 }
 
 .post_body {

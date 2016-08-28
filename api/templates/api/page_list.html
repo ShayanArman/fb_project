@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class='nav'>
-  <a class='home selected' onclick="goHome();">
+  <a class='home selected' onclick="goToView('/');">
   </a>
   <a class='posts'>
   </a>
@@ -20,10 +20,6 @@
           <div id="admin_picture"></div>
         </div>
         <div class="post_compose">
-          <div class="speech_arrow">
-            <div></div>
-            <div></div>
-          </div>
           <textarea type="text" placeholder="Compose a post..."></textarea>
         </div>
       </div>
@@ -39,42 +35,80 @@
 {% endblock %}
 
 {% block scripts %}
+  <script id="postsScript" type="text/template">
+    {% templatetag openvariable %} #pages {% templatetag closevariable %}
+      <a class="page_link" id="{% templatetag openvariable %}page.id{% templatetag closevariable %}"><div class="post">
+        <div class="post_body">
+          <div class="person_picture">
+            <img class="person_picture user_picture" src="{% templatetag openvariable %}picture_url{% templatetag closevariable %}"/>
+          </div>
+          <div class="post_content page">
+            {% templatetag openvariable %} #page.name {% templatetag closevariable %}
+              <b>{% templatetag openvariable %} page.name {% templatetag closevariable %}</b>
+            {% templatetag openvariable %} /page.name {% templatetag closevariable %}
+            
+            {% templatetag openvariable %} #page.category {% templatetag closevariable %}
+              <br>{% templatetag openvariable %}page.category{% templatetag closevariable %}
+            {% templatetag openvariable %} /page.category {% templatetag closevariable %}
+          </div>
+        </div>
+        <div class="post_commentary">
+          {% templatetag openvariable %} #views {% templatetag closevariable %}
+              <b>{% templatetag openvariable %} views {% templatetag closevariable %} Views</b>
+          {% templatetag openvariable %} /views {% templatetag closevariable %}
+        </div>
+      </div></a>
+    {% templatetag openvariable %} /pages {% templatetag closevariable %}
+  </script>
+
 	<script>
-  // TODO: On click -> window.location.replace('/post_list/<page-id>')
-  // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
     if (response.status !== 'connected') {
       // Logged into your app and Facebook.
-      window.location.replace("/login");
+      goToView("/login");
     }
 
-    userId = response.authResponse.userID;
+    getManagedPages();
 
+  }
+
+  // Makes mustache pages data
+  function createDataFromPages(pagesList) {
+    var data = {pages: []};
+    pagesList.forEach(function(pageObject) {
+      if (pageObject.picture && pageObject.picture.data.url) {
+        pictureUrl = pageObject.picture.data.url;
+      } else {
+        pictureUrl = null;
+      }
+      data.pages.push({page: pageObject, picture_url: pictureUrl})
+    });
+    return data;
   }
 
   function showManagedPages(pages) {
-    if (pages.length > 0) {
-      // TODO: Add the pages to the main view
-      pages.forEach(function(page) {
-        console.log(page.access_token);
-        console.log(page.category);
-        console.log(page.name);
-        console.log(page.id);
+    if (pages && pages.length > 0) {
+      // TODO: Add the posts to the main view
+      var data = createDataFromPages(pages);
+      console.log(data);
+      var template = $('#postsScript').html();
+      var pageHtml = Mustache.to_html(template, data);
+      $('#feedColumn').html(pageHtml);
+      $('.page_link').click(function() {
+        url = '/post_list/' + $(this).attr('id');
+        goToView(url);
       });
     } else {
-      // TODO: Write a message, no pages under management by user.
-      console.log("No pages under management by this user.");
+      // TODO: Have a placeholder, with a message, no posts in page.
+      console.log("No posts in this Page.");
     }
   }
 
-  function getManagedPages(userId) {
-    // TODO: String formatting in Javascript
-    apiEndpoint = userId.toString() + '/accounts';
-
-    FB.api(apiEndpoint, function(response) {
+  function getManagedPages() {
+    FB.api('/me/accounts', {fields: 'picture,name,category'}, function(pages_response) {
       // TODO: Check edge cases, does response have data field?
       // handle 500 errors.
-      showManagedPages(response.data);
+      showManagedPages(pages_response.data);
     });
   }
 
