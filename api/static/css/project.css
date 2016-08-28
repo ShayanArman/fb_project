@@ -1,0 +1,258 @@
+body {
+	background-color: #f0f0f0;
+	color: #555;
+    font-family: 'Open-Sans', sans-serif;
+    font-weight: 400;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+.nav {
+	float: left;
+	align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: #d0021b;
+    height: 100%;
+    padding-top: 75px;
+    text-align: center;
+    width: 75px;
+}
+
+.nav a {
+    align-items: center;
+    -moz-border-radius: 200px;
+    border-radius: 200px;
+    background-clip: padding-box;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    color: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    font-family: 'Ionicons';
+    font-size: 0.8em;
+    height: 45px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: center;
+    width: 45px;
+}
+
+.nav a.home:before {
+	font-size: 2.7em;
+    content: '\f448';
+}
+
+.nav a.profile:before {
+	position: absolute;
+	top: 0;
+    right: 0;
+    bottom: auto;
+    left: 4px;
+	font-size: 2.7em;
+    content: '\f417';
+}
+
+.nav a:hover, .nav a.selected {
+    border: 2px solid #fff;
+    color: #fff;
+}
+
+a {
+	text-decoration: none;
+}
+
+.content {
+    align-items: center;
+    width: calc(100% - 75px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.content > div {
+    max-width: 545px;
+    padding: 0 10px;
+    position: relative;
+    width: 100%;
+}
+
+.post_composer {
+    background-color: #f9f9f9;
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    color: #aaa;
+    line-height: 40px;
+    margin: 20px auto;
+    min-height: 149px;
+    padding: 20px 20px 10px;
+}
+
+.post_composer .post_body {
+    padding: 0;
+    margin: 0;
+}
+
+.post_body {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+    padding: 20px;
+    line-height: 1.5em;
+    margin-right: 40px;
+    min-height: 90px;
+    word-wrap: break-word;
+}
+
+.post_composer .post_author {
+    margin: 0;
+    margin-right: 20px;
+}
+
+.post_author {
+    margin: 20px;
+    height: 50px;
+    width: 50px;
+}
+
+.person_picture {
+    background-image: none;
+    background-size: 200%;
+    border-radius: 50px;
+    height: 50px;
+    margin-right: 10px;
+    width: 50px;
+}
+
+.person_picture .user_picture {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.post_composer .post_compose {
+    width: calc(100% - 70px);
+    display: flex;
+    position: relative;
+    height: 80px;
+}
+
+.post_composer .post_compose .speech_arrow {
+    position: absolute;
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: -14px;
+    background-color: #fff;
+    border-top: 1px solid #e4e4e4;
+    cursor: text;
+    height: 15px;
+    width: 20px;
+}
+
+.post_composer .post_compose .speech_arrow :first-child {
+    border-bottom: 16px solid #e4e4e4;
+    border-right: 16px solid transparent;
+    left: -1px;
+    top: -1px;
+}
+
+.post_composer .post_compose .speech_arrow > * {
+    height: 0;
+    position: absolute;
+    width: 0;
+}
+
+.post_composer .post_compose .speech_arrow :last-child {
+    border-bottom: 15px solid #f9f9f9;
+    border-right: 15px solid transparent;
+    left: -1px;
+}
+
+.post_composer .post_compose .speech_arrow > * {
+    height: 0;
+    position: absolute;
+    width: 0;
+}
+
+.post_composer .post_compose textarea {
+    border: 1px solid #e4e4e4;
+    font-size: 0.75em;
+    height: 100%;
+    outline: none;
+    padding: 15px;
+    resize: none;
+    width: 100%;
+}
+
+.post_buttons {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    position: relative;
+    margin: 10px 0;
+    padding-left: 70px;
+}
+
+.post_buttons .button {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    bottom: 12px;
+    left: auto;
+    margin: auto;
+}
+
+.button {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    background-color: #d0021b;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    font-size: 0.9em;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    width: 100px;
+}
+
+.post {
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    display: block;
+    min-height: 100px;
+    background-color: #fff;
+    margin: 20px 0;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    font-size: 0.75em;
+}
+
+.post_body {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 20px;
+    line-height: 1.5em;
+    margin-right: 40px;
+    min-height: 50px;
+    word-wrap: break-word;
+}
+
+.post_content {
+    width: calc(100% - 60px);
+}
+
+.post_commentary {
+    display: block;
+    margin: 0 20px 20px;
+}

@@ -5,30 +5,59 @@
 {% endblock %}
 
 {% block content %}
-  <div id='sampleArea'>
+<div class='nav'>
+  <a class='home selected'>
+  </a>
+  <a class='profile'>
+  </a>
+</div>
+
+<div class='content'>
+  <div class='h'>
+    <div class="post_composer">
+      <div class="post_body">
+        <div class="post_author">
+          <div id="admin_picture"></div>
+        </div>
+        <div class="post_compose">
+          <div class="speech_arrow">
+            <div></div>
+            <div></div>
+          </div>
+          <textarea type="text" placeholder="Compose a post..."></textarea>
+        </div>
+      </div>
+      <div class="post_buttons">
+        <div class="button">Post</div>
+      </div>
+    </div>
+    <div id="feedColumn" class="feed">
+    </div>
   </div>
-	{% for post in posts %}
-	    <div class="post">
-	        <h1><a href="">{{ post.title }}</a></h1>
-	        <p>{{ post.text|linebreaksbr }}</p>
-	        <div class="date">
-	            <p>published: {{ post.published_date }}</p>
-	        </div>
-	    </div>
-	{% endfor %}
+</div>
+
 {% endblock %}
 
 {% block scripts %}
-  <script id="personTpl" type="text/template">
-    {% templatetag openvariable %} #names {% templatetag closevariable %}
-      <b>{% templatetag openvariable %} name {% templatetag closevariable %}</b>
-    {% templatetag openvariable %} /names {% templatetag closevariable %}
-  </script>
-  <script>
-    var data = {names: [{name: 'Shayan'}, {name: 'Awesome'}, {name: 'Captain'}]}
-    var template = $('#personTpl').html();
-    var html = Mustache.to_html(template, data);
-    $('#sampleArea').html(html);
+  <script id="postsScript" type="text/template">
+    {% templatetag openvariable %} #posts {% templatetag closevariable %}
+      <div class="post">
+        <div class="post_body">
+          <div class="person_picture"></div>
+          <div class="post_content">
+            {% templatetag openvariable %} #post.message {% templatetag closevariable %}
+              {% templatetag openvariable %} post.message {% templatetag closevariable %}
+            {% templatetag openvariable %} /post.message {% templatetag closevariable %}
+            {% templatetag openvariable %} #post.link {% templatetag closevariable %}
+              {% templatetag openvariable %}post.link{% templatetag closevariable %}
+            {% templatetag openvariable %} /post.link {% templatetag closevariable %}
+          </div>
+        </div>
+        <div class="post_commentary">
+          33 views.
+        </div>
+      </div>
+    {% templatetag openvariable %} /posts {% templatetag closevariable %}
   </script>
 
   <script>
@@ -41,24 +70,34 @@
 	    window.location.replace('/login');
     }
     if (!user_response.error) {
-      console.log(user_response);
-      console.log(user_response.first_name);
-      console.log(user_response.last_name);
-      console.log(user_response.picture.data.url);
-      // getPagePosts();
+
+      $('#admin_picture').prepend('<img class="person_picture user_picture" src=' + user_response.picture.data.url + ' />')
+      // $("#admin_picture").css("background-image", "url(" + user_response.picture.data.url + ")");
+      // console.log(user_response);
+      // console.log(user_response.first_name);
+      // console.log(user_response.last_name);
+      // console.log(user_response.picture.data.url);
+      getPagePosts();
     }
     // TODO: Handle case where the user_response is not available.
+  }
+
+  function createDataFromPosts(pagePosts) {
+    var data = {posts: []};
+    pagePosts.forEach(function(postObject) {
+      data.posts.push({post: postObject})
+    });
+    return data;
   }
 
   function showPagePosts(pagePosts) {
     if (pagePosts && pagePosts.length > 0) {
       // TODO: Add the posts to the main view
-      pagePosts.forEach(function(post) {
-        console.log(post);
-        // console.log(post.id);
-        // console.log(post.likes);
-        // console.log(post.link);
-      });
+      var data = createDataFromPosts(pagePosts);
+      console.log(data);
+      var template = $('#postsScript').html();
+      var postHtml = Mustache.to_html(template, data);
+      $('#feedColumn').html(postHtml);
     } else {
       // TODO: Have a placeholder, with a message, no posts in page.
       console.log("No posts in this Page.");
