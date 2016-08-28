@@ -48,8 +48,9 @@
             {% templatetag openvariable %} #post.message {% templatetag closevariable %}
               {% templatetag openvariable %} post.message {% templatetag closevariable %}
             {% templatetag openvariable %} /post.message {% templatetag closevariable %}
+            
             {% templatetag openvariable %} #post.link {% templatetag closevariable %}
-              {% templatetag openvariable %}post.link{% templatetag closevariable %}
+              <a href="{% templatetag openvariable %}post.link{% templatetag closevariable %}">{% templatetag openvariable %}post.link{% templatetag closevariable %}</a>
             {% templatetag openvariable %} /post.link {% templatetag closevariable %}
           </div>
         </div>

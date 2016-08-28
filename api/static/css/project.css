@@ -234,7 +234,7 @@ a {
     margin: 20px 0;
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
-    font-size: 0.75em;
+    font-size: 0.9em;
 }
 
 .post_body {
@@ -250,6 +250,10 @@ a {
 
 .post_content {
     width: calc(100% - 60px);
+}
+
+.post_content a {
+    display: block;
 }
 
 .post_commentary {
