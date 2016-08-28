@@ -30,6 +30,10 @@
 		     js.src = "//connect.facebook.net/en_US/sdk.js";
 		     fjs.parentNode.insertBefore(js, fjs);
 		   }(document, 'script', 'facebook-jssdk'));
+
+		  function goHome() {
+		  	window.location.replace("/");
+		  }
 		</script>
 
     	{% block content %}

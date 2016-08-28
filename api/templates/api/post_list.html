@@ -6,9 +6,9 @@
 
 {% block content %}
 <div class='nav'>
-  <a class='home selected'>
+  <a class='home' onclick="goHome();">
   </a>
-  <a class='profile'>
+  <a class='posts selected'>
   </a>
 </div>
 
@@ -41,7 +41,7 @@
 {% block scripts %}
   <script id="postsScript" type="text/template">
     {% templatetag openvariable %} #posts {% templatetag closevariable %}
-      <div class="post">
+      <div class="post" id="{% templatetag openvariable %}post.id{% templatetag closevariable %}">
         <div class="post_body">
           <div class="person_picture"></div>
           <div class="post_content">
@@ -55,7 +55,9 @@
           </div>
         </div>
         <div class="post_commentary">
-          33 views.
+          {% templatetag openvariable %} #views {% templatetag closevariable %}
+              {% templatetag openvariable %} views {% templatetag closevariable %} Views
+          {% templatetag openvariable %} /views {% templatetag closevariable %}
         </div>
       </div>
     {% templatetag openvariable %} /posts {% templatetag closevariable %}
@@ -86,7 +88,12 @@
   function createDataFromPosts(pagePosts) {
     var data = {posts: []};
     pagePosts.forEach(function(postObject) {
-      data.posts.push({post: postObject})
+      if (postObject.insights && postObject.insights.data[0].name === 'post_impressions') {
+        numViews = postObject.insights.data[0].values[0].value;
+      } else {
+        numViews = 0;
+      }
+      data.posts.push({post: postObject, views: numViews})
     });
     return data;
   }
@@ -108,10 +115,10 @@
   function getPagePosts() {
     // TODO: do a check for the integrity of page_id
     endpoint = page_id.toString() + '/feed';
-    FB.api(endpoint, {fields: 'message,id,likes,link'}, function(response) {
+    FB.api(endpoint, {fields: 'message,id,link,insights.metric(post_impressions)'}, function(response) {
       // TODO: check response object has data field
       showPagePosts(response.data);
-    })
+    });
   }
 
   // This function is called when someone finishes with the Login

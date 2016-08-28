@@ -31,7 +31,6 @@ body {
     justify-content: center;
     border: 2px solid rgba(0, 0, 0, 0.3);
     color: rgba(0, 0, 0, 0.3);
-    cursor: pointer;
     font-family: 'Ionicons';
     font-size: 0.8em;
     height: 45px;
@@ -43,10 +42,11 @@ body {
 
 .nav a.home:before {
 	font-size: 2.7em;
+    cursor: pointer;
     content: '\f448';
 }
 
-.nav a.profile:before {
+.nav a.posts:before {
 	position: absolute;
 	top: 0;
     right: 0;
@@ -56,7 +56,7 @@ body {
     content: '\f417';
 }
 
-.nav a:hover, .nav a.selected {
+.nav .home:hover, .nav a.selected {
     border: 2px solid #fff;
     color: #fff;
 }
