@@ -8,38 +8,20 @@
         <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
         <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
         <script src='https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js'></script>
-    	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'></script>
+        <script src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
+        <script>
+            page_id = {{page_id}};
+        </script>
+        <script type="text/javascript" src="{% static 'js/initialize_facebook.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/shared.js' %}"></script>
+        {% block static_files %}
+        {% endblock %}
     </head>
     <body>
-		<script>
-		  var isLoaded = false;
-		  window.fbAsyncInit = function() {
-		    FB.init({
-		      appId      : '1749293892004937',
-		      xfbml      : true,
-		      cookie	 : true,
-		      version    : 'v2.7'
-		    });
-		    checkLoginState();
-		  };
-
-		  (function(d, s, id){
-		     var js, fjs = d.getElementsByTagName(s)[0];
-		     if (d.getElementById(id)) {return;}
-		     js = d.createElement(s); js.id = id;
-		     js.src = "//connect.facebook.net/en_US/sdk.js";
-		     fjs.parentNode.insertBefore(js, fjs);
-		   }(document, 'script', 'facebook-jssdk'));
-
-		  function goToView(viewEndpoint) {
-		  	window.location.replace(viewEndpoint);
-		  }
-		</script>
-
-    	{% block content %}
-    	{% endblock %}
-
-		{% block scripts %}
-		{% endblock %}
+        {% block content %}
+        {% endblock %}
+        
+        {% block mustache_templates %}
+        {% endblock %}
     </body>
 </html>

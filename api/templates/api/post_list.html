@@ -1,7 +1,8 @@
 {% extends 'api/main.html' %}
+{% load staticfiles %}
 
-{% block header_message %}
-	<h1><a>Communication Manager - Posts List</a></h1>
+{% block static_files %}
+  <script src="{% static 'js/post_list.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -28,20 +29,25 @@
         </div>
       </div>
       <div class="post_buttons">
-        <div id="poop" class="tag publish_switch">
+        <div id="publish_selector" class="tag publish_switch selected">
           <p class="published_text">Published</p>
         </div>
         <a id="post_button" class="button" onclick="postInformation()">Post</a>
       </div>
     </div>
     <div id="feedColumn" class="feed">
+      <div id="no_pages" class="post_composer page" style="display:none">
+        <div class="post_body page">
+          No pages to show
+        </div>
+    </div>
     </div>
   </div>
 </div>
 
 {% endblock %}
 
-{% block scripts %}
+{% block mustache_templates %}
   <script id="postsScript" type="text/template">
     {% templatetag openvariable %} #posts {% templatetag closevariable %}
       <div class="post" id="{% templatetag openvariable %}post.id{% templatetag closevariable %}">
@@ -58,110 +64,13 @@
           </div>
         </div>
         <div class="post_commentary">
-          {% templatetag openvariable %} #views {% templatetag closevariable %}
+          <div>{% templatetag openvariable %} #views {% templatetag closevariable %}
               <b>{% templatetag openvariable %} views {% templatetag closevariable %} Views</b>
-          {% templatetag openvariable %} /views {% templatetag closevariable %}
+          {% templatetag openvariable %} /views {% templatetag closevariable %}</div>
+          <div>
+              <b>{% templatetag openvariable %} is_published {% templatetag closevariable %}</b></div>
         </div>
       </div>
     {% templatetag openvariable %} /posts {% templatetag closevariable %}
   </script>
-
-  <script>
-  page_id = {{page_id}};
-  page_access_token = null;
-
-    $('.post_buttons .tag').click(function(e) {
-      if (!$(this).hasClass('selected')) {
-        $(this).addClass('selected');
-        $('.post_buttons .tag > p').text('Published');
-      } else {
-        $(this).removeClass('selected');
-        $('.post_buttons .tag > p').text('Unpublished');
-      }
-    });
-
-  function postInformation() {
-    // TODO: Clean this code, abstract away methods.
-    message = $("#post_message_area").val();
-    if (!message) {
-      $("#post_message_area").val('Must have a message.');
-    } else {
-      FB.api(page_id.toString() + '/feed', 'POST', {'message': message}, function(response) {
-          if (response.error) {
-            $("#post_message_area").val(re.error.message);
-          } else {
-            FB.api(response.id, {fields: 'message,id,link,insights.metric(post_impressions)'}, function(post) {
-                if (!post.error) {
-                  // Add the new post to the feed.
-                  showPagePosts([post]);
-                } else {
-                  // Reload the page.
-                  goToView('/post_list/' + page_id.toString());
-                }
-            });
-          }
-      });
-    }}
-
-  // This is called with the results from from FB.getLoginStatus().
-  function statusChangeCallback(login_response, user_response) {
-    if (login_response.status !== 'connected') {
-      // Logged into your app and Facebook.
-	    goToView('/login');
-    }
-    if (!user_response.error) {
-
-      $('#admin_picture').prepend('<img class="person_picture user_picture" src=' + user_response.picture.data.url + ' />');
-      getPagePosts();
-    }
-    // TODO: Handle case where the user_response is not available.
-  }
-
-  function createDataFromPosts(pagePosts) {
-    var data = {posts: []};
-    pagePosts.forEach(function(postObject) {
-      if (postObject.insights && postObject.insights.data[0].name === 'post_impressions') {
-        numViews = postObject.insights.data[0].values[0].value;
-      } else {
-        numViews = 0;
-      }
-      data.posts.push({post: postObject, views: numViews})
-    });
-    return data;
-  }
-
-  function showPagePosts(pagePosts) {
-    if (pagePosts && pagePosts.length > 0) {
-      // TODO: Add the posts to the main view
-      var data = createDataFromPosts(pagePosts);
-      console.log(data);
-      var template = $('#postsScript').html();
-      var postHtml = Mustache.to_html(template, data);
-      $('#feedColumn').prepend(postHtml);
-    } else {
-      // TODO: Have a placeholder, with a message, no posts in page.
-      console.log("No posts in this Page.");
-    }
-  }
-
-  function getPagePosts() {
-    // TODO: do a check for the integrity of page_id
-    endpoint = page_id.toString() + '/feed';
-    FB.api(endpoint, {fields: 'message,id,link,insights.metric(post_impressions)'}, function(response) {
-      // TODO: check response object has data field
-      showPagePosts(response.data);
-    });
-  }
-
-  // This function is called when someone finishes with the Login
-  // Button.  See the onlogin handler attached to it in the sample
-  // code below.
-  function checkLoginState() {
-    FB.getLoginStatus(function(login_response) {
-      FB.api('/me', {fields: 'picture,first_name,last_name'}, function(user_response) {
-        statusChangeCallback(login_response, user_response);
-      });
-    });
-  }
-</script>
 {% endblock %}

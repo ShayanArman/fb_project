@@ -1,12 +1,5 @@
 from django.shortcuts import render
 
-class Post:
-    def __init__(self, title, published_date, num_likes):
-        self.title = title
-        self.published_date = published_date
-        self.num_likes = num_likes
-        self.text = 'I love everything about your store.'
-
 def login(request):
     return render(request, 'api/login.html', {})
 
@@ -16,5 +9,4 @@ def page_list(request):
 
 
 def post_list(request, page_id):
-    posts = [Post('Street Style', 'August 29', 30), Post('Road Style', 'Sept', 1)]
-    return render(request, 'api/post_list.html', {'posts': posts, 'page_id': page_id})
+    return render(request, 'api/post_list.html', {'page_id': page_id})

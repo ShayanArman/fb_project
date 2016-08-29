@@ -1,47 +1,44 @@
 {% extends 'api/main.html' %}
+{% load staticfiles %}
 
-{% block header_message %}
-	<h1><a href="/">Login</a></h1>
-{% endblock %}
-
-{% block scripts %}
-	<script>
-  function fbLogin() {
-  	FB.login(function(response) {
-  	  if (response.status === 'connected') {
-  	  	goToView('/');
-  	  }
-  	}, {scope: 'publish_pages, manage_pages, pages_show_list, read_insights, read_audience_network_insights'});
-  }
-  // This is called with the results from from FB.getLoginStatus().
-  function statusChangeCallback(response) {
-    if (response.status === 'connected') {
-      // Logged into your app and Facebook.
-      goToView('/');
-    } else {
-    	console.log('not connected.');
-    }
-  }
-
-  // This function is called when someone finishes with the Login
-  // Button.  See the onlogin handler attached to it in the sample
-  // code below.
-  function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-      console.log(response.status);
-      statusChangeCallback(response);
-    });
-  }
-</script>
+{% block static_files %}
+  <link rel="stylesheet" href="{% static 'css/landingPage.css' %}">
+  <script src="{% static 'js/login.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-	<a href="#" onclick="fbLogin();" class="w-inline-block registration_fb">
-		Login with Facebook
-	</a>
-	<!-- <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-	</fb:login-button> -->
+<div class="container">
+    <nav>
+        <div>
+            <a href="/register" id="logo-top"><!-- <img src="/static/images/logo-top.png" alt="Logo"> --></a>
+            <div id="navbtns">
+                <a href="#" class="nav-button" onclick="fbLogin();">Login with Facebook</a>
+            </div>
+        </div>
+    </nav>
+            
 
-	<div id="status">
-	</div>
+    <div id="landinghero">
+        <div>
+            <div id="catchphrase">
+                Manage your Facebook Page,<br>create published and unpublished posts,<br> and get insights on your Page's posts<br>today.
+                <br><span class="catchphrase-sub">Facebook Page Manager.</span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="subcontainer">
+        
+    </div>
+
+    <footer>
+        <a href="/login">Log In</a>
+        <a href="/register" class="footersignup circular">Register</a>
+    </footer>
+
+</div>
+<a href="#" onclick="fbLogin();" class="registration_fb">
+	Login with Facebook
+</a>
 {% endblock %}
