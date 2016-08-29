@@ -207,7 +207,7 @@ a {
     text-decoration: none;
     top: 40px;
     right: 0;
-    bottom: 12px;
+    bottom: 25px;
     left: auto;
     margin: auto;
 }
@@ -230,6 +230,53 @@ a {
 .button:hover {
     color: black;
 }
+
+.post_buttons > div {
+    position: relative;
+    text-transform: capitalize;
+    margin: 0 10px;
+    font-size: 2.0em;
+}
+
+.tag {
+    cursor: pointer;
+    height: 50px;
+    text-align: center;
+    width: 50px;
+}
+
+.post_buttons > div:before {
+    position: absolute;
+    top: auto;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    font-family: 'Ionicons';
+}
+
+.publish_switch:before {
+    content: '\f13a';
+}
+
+.post_buttons > div:after {
+    position: absolute;
+    top: auto;
+    right: 0;
+    bottom: -15px;
+    left: 0;
+    font-size: 13px;
+}
+
+.published_text {
+    font-size: 15px;
+    position: relative;
+    margin-top: 20px;
+}
+
+.publish_switch:hover, .publish_switch.selected {
+    color: #8523db;
+}
+
 .page_link {
     cursor: pointer;
     color: #555;

@@ -28,6 +28,9 @@
         </div>
       </div>
       <div class="post_buttons">
+        <div id="poop" class="tag publish_switch">
+          <p class="published_text">Published</p>
+        </div>
         <a id="post_button" class="button" onclick="postInformation()">Post</a>
       </div>
     </div>
@@ -67,7 +70,18 @@
   page_id = {{page_id}};
   page_access_token = null;
 
+    $('.post_buttons .tag').click(function(e) {
+      if (!$(this).hasClass('selected')) {
+        $(this).addClass('selected');
+        $('.post_buttons .tag > p').text('Published');
+      } else {
+        $(this).removeClass('selected');
+        $('.post_buttons .tag > p').text('Unpublished');
+      }
+    });
+
   function postInformation() {
+    // TODO: Clean this code, abstract away methods.
     message = $("#post_message_area").val();
     if (!message) {
       $("#post_message_area").val('Must have a message.');
@@ -76,11 +90,14 @@
           if (response.error) {
             $("#post_message_area").val(re.error.message);
           } else {
-            // TODO: Clean this code, abstract away methods.
             FB.api(response.id, {fields: 'message,id,link,insights.metric(post_impressions)'}, function(post) {
-              if (!post.error) {
-                showPagePosts([post]);
-              }
+                if (!post.error) {
+                  // Add the new post to the feed.
+                  showPagePosts([post]);
+                } else {
+                  // Reload the page.
+                  goToView('/post_list/' + page_id.toString());
+                }
             });
           }
       });
