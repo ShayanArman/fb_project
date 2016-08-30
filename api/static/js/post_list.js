@@ -1,4 +1,5 @@
 page_access_token = null;
+// scheduled_time = 147249333148;
 should_publish = true;
 
 function addPublishListener() {
@@ -23,25 +24,33 @@ function postInformation() {
   }
 
   message = $("#post_message_area").val();
+  
   if (!message) {
     $("#post_message_area").val('Must have a message.');
   } else {
-    FB.api(page_id.toString() + '/feed', 'POST', {'message': message, 'published': should_publish, 'access_token': page_access_token}, function(response) {
-        if (response.error) {
-          $("#post_message_area").val(re.error.message);
-        } else {
-          FB.api(response.id, {fields: 'message,id,is_published,link,insights.metric(post_impressions)'}, function(post) {
-              if (!post.error) {
-                // Add the new post to the feed.
-                showPagePosts([post]);
-              } else {
-                // Reload the page.
-                goToView('/post_list/' + page_id.toString());
-              }
-          });
-        }
-    });
-  }}
+    parameters = {'message': message, 'published': should_publish, 'access_token': page_access_token};
+    publish_post(parameters);
+  }
+
+}
+
+function publishPost(parameters) {
+  FB.api(page_id.toString() + '/feed', 'POST', parameters, function(response) {
+    if (response.error) {
+      $("#post_message_area").val(re.error.message);
+    } else {
+      FB.api(response.id, {fields: 'message,id,is_published,link,insights.metric(post_impressions)'}, function(post) {
+          if (!post.error) {
+            // Add the new post to the feed.
+            showPagePosts([post]);
+          } else {
+            // Reload the page.
+            goToView('/post_list/' + page_id.toString());
+          }
+      });
+    }
+  });
+}
 
 // This is called with the results from FB.getLoginStatus().
 function statusChangeCallback(login_response, user_response) {
